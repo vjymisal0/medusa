@@ -14,7 +14,10 @@ describe("FulfillmentModuleService - Polymorphic cancel guard", () => {
     const service = Object.create(CustomFulfillmentService.prototype)
     service.fulfillmentService_ = mockFulfillmentService
     service.fulfillmentProviderService_ = { cancelFulfillment: jest.fn() }
-    service.baseRepository_ = { serialize: jest.fn().mockResolvedValue({ id: "ful_123" }) }
+    service.baseRepository_ = {
+      serialize: jest.fn().mockResolvedValue({ id: "ful_123" }),
+      getFreshManager: jest.fn().mockReturnValue({}),
+    }
 
     await service.cancelFulfillment("ful_123")
     expect(CustomFulfillmentService.canCancelFulfillmentOrThrow).toHaveBeenCalledWith(
